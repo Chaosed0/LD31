@@ -8,7 +8,7 @@ define(function(require) {
         _mintime: 50,
         _maxtime: 1000,
         _radius: 500,
-        _lightchance: 0.90,
+        _lightchance: 0.95,
 
         _time: 0,
         _timer : 0,
@@ -16,7 +16,7 @@ define(function(require) {
 
         _difficultytime: 1000,
         _difficultytimer: 0,
-        _reduction: 1,
+        _reduction: 5,
 
         _spawn: function() {
             var rand = Math.random();
@@ -57,6 +57,7 @@ define(function(require) {
                     this._difficultytimer  > this._difficultytime) {
                 this._time -= this._reduction;
                 this.difficultytimer -= this._difficultytime;
+                console.log(this._time
             }
         },
 

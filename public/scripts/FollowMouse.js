@@ -35,7 +35,7 @@ define(function(require) {
     };
     
     Crafty.c("FollowMouse", {
-        _moving: false,
+        _moving: true,
         _speed: 0,
         _maxspeed: 5,
         _acceleration: 0.5,
@@ -52,14 +52,8 @@ define(function(require) {
             var rel = target.subtract(position);
             this._targetangle = Math.atan2(rel.y, rel.x);
 
-            if(!this._moving) {
-                this._target = new Vec2d(e.realX, e.realY);
-                this._moving = true;
-                return;
-            }
-
             if(!this._dashing && this._speed >= this._maxspeed) {
-                var dashdir = this._target.clone().subtract(position);
+                var dashdir = target.subtract(position);
                 this._dashing = true;
                 this._speed = this._maxspeed * 5.0;
                 this._moveangle = this._targetangle;
@@ -111,7 +105,6 @@ define(function(require) {
                 var position = new Vec2d(this.x, this.y);
                 var movement = new Vec2d(this._speed * Math.cos(this._moveangle),
                                 this._speed * Math.sin(this._moveangle));
-                console.log(movement.magnitude());
                 this.x += movement.x;
                 this.y += movement.y;
                 this.trigger('Moved', {x: this.x - movement.x, y: this.y - movement.y});
