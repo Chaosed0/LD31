@@ -7,8 +7,6 @@ define(function(require) {
     Crafty.c("EnemySpawner", {
         _mintime: 500,
         _maxtime: 1000,
-        _width: 1280,
-        _height: 1024,
         _lightchance: 0.80,
         _heavychance: 0.10,
         _throwerchance: 0.10,
@@ -24,13 +22,21 @@ define(function(require) {
         _reduction: 10,
 
         _spawn: function() {
-            var rand = Math.random();
-            var angle = Math.random() * 2*pi;
-            var spawnerpos = new Vec2d(this.x, this.y);
-            var pos = spawnerpos.add(
-                    new Vec2d(this._radius * Math.cos(angle), this._radius * Math.sin(angle)));
+            var randspawn = Math.random();
+            var side = Math.floor(Math.random() * 4);
+            var pos = new Vec2d(0, 0);
+            if(side == 0 || side == 2) {
+                pos.x = Math.random() * this.w;
+            } else if(side == 1) {
+                pos.x = this.w;
+            }
+            if(side == 1 || side == 3) {
+                pos.y = Math.random() * this.h;
+            } else if(side == 2) {
+                pos.y = this.h;
+            }
 
-            if(rand < this._lightchance && this._sinceheavy < 9 && this._sincethrower < 9) {
+            if(randspawn < this._lightchance && this._sinceheavy < 9 && this._sincethrower < 9) {
                 var enemy = Crafty.e('2D, Canvas, Color, FollowPlayer, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('green')
@@ -39,7 +45,7 @@ define(function(require) {
                 this._sinceheavy++;
                 this._sincethrower++;
             } else if (this._sincethrower >= 9 ||
-                    rand >= this._lightchance && rand < this._lightchance + this._throwerchance) {
+                    randspawn >= this._lightchance && randspawn < this._lightchance + this._throwerchance) {
                 var enemy = Crafty.e('2D, Canvas, Color, ProjectileThrower, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('blue')
@@ -81,10 +87,9 @@ define(function(require) {
             this._newnextspawn();
         },
 
-        enemyspawner: function(low, high, radius, lightchance) {
+        enemyspawner: function(low, high, lightchance) {
             this._mintime = low;
             this._maxtime = high;
-            this._radius = radius;
             this._lightchance = lightchance;
 
             this._time = this._maxtime;

@@ -14,8 +14,8 @@ define(function(require) {
     require('scripts/ProjectileThrower.js');
     require('scripts/Shuriken.js');
     
-    var width = 1280;
-    var height = 1024;
+    var width = 1000;
+    var height = 1000;
 
     Crafty.init(width, height, document.getElementById('game'));
 
@@ -36,7 +36,7 @@ define(function(require) {
             .enemydestroyer();
 
         var enemyspawner = Crafty.e('2D, EnemySpawner')
-            .attr({x:width/2.0, y: height/2.0, w: 0, h: 0});
+            .attr({x:0, y: 0, w: width, h: height});
 
         var scoretext = Crafty.e('2D, Canvas, Text')
             .attr({x: 0, y: 0, z: 1000})
