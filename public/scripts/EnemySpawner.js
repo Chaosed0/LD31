@@ -37,7 +37,7 @@ define(function(require) {
                 var enemy = Crafty.e('2D, Canvas, Color, FollowPlayerVary, Enemy')
                     .attr({x: pos.x, y: pos.y, w: 15, h: 15})
                     .color('#0000FF')
-                    .followplayer('Player', 1, 8, 0.01)
+                    .followplayer('Player', 1, 8.5, 0.01)
                     .setHeavy();
                 this._sinceheavy = 0;
             }

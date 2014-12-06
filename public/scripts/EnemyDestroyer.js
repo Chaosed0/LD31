@@ -8,8 +8,7 @@ define(function(require) {
     Crafty.sprite(20, 20, "image/slash.png", {slash:[0, 0]});
 
     Crafty.c("EnemyDestroyer", {
-        _destroylight: false,
-        _destroyheavy: false,
+        _destroy: false,
 
         _score: 0,
         _combo: -1,
@@ -17,8 +16,7 @@ define(function(require) {
         _onHit: function(hitData) {
             for(var i = 0; i < hitData.length; i++) {
                 var entityHit = hitData[i].obj;
-                if((entityHit._light && this._destroylight) ||
-                    entityHit._heavy && this._destroyheavy) {
+                if(this._destroy) {
                     var score;
 
                     if(entityHit._light) {
@@ -65,22 +63,21 @@ define(function(require) {
 
                     entityHit.destroy();
                     this.trigger('EnemyKill');
+                    this.trigger('ScoreChange', this._score);
                 }
             }
         },
 
         _onMaxMove: function() {
-            this._destroylight = true;
         },
 
         _onStartDash: function() {
-            this._destroyheavy = true;
+            this._destroy= true;
             this._combo = 0;
         },
 
         _onEndDash: function() {
-            this._destroylight = false;
-            this._destroyheavy = false;
+            this._destroy= false;
             this._combo = -1;
         },
 

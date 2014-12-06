@@ -25,7 +25,6 @@ define(function(require) {
     var resumeGameFunc;
 
     var init = function() {
-
         var player = Crafty.e('2D, Canvas, Color, FollowMouse, Collision, EnemyDestroyer, PlayerAudio, Player')
             .attr({x: width/2.0, y: height/2.0, w: 10, h: 10})
             .origin(5, 5)
@@ -36,6 +35,11 @@ define(function(require) {
 
         var enemyspawner = Crafty.e('2D, EnemySpawner')
             .attr({x:width/2.0, y: height/2.0, w: 0, h: 0});
+
+        var scoretext = Crafty.e('2D, Canvas, Text')
+            .attr({x: 0, y: 0})
+            .textFont({size: '10px', weight: 'bold'})
+            .text('Score: 0');
 
         player.bind('Lose', function() {
             pauseGame('You have died');
@@ -50,6 +54,10 @@ define(function(require) {
                 resumeGame();
             };
             Crafty.addEvent(self, Crafty.stage.elem, "mousedown", resumeGameFunc);
+        });
+
+        player.bind('ScoreChange', function(newscore) {
+            scoretext.text('Score: ' + newscore);
         });
     }
 
