@@ -37,8 +37,8 @@ define(function(require) {
     Crafty.c("FollowMouse", {
         _moving: true,
         _speed: 0,
-        _maxspeed: 5,
-        _acceleration: 0.5,
+        _maxspeed: 8,
+        _acceleration: 0.3,
         _turnrate: 0.2,
         _hitmaxspeed: false,
 

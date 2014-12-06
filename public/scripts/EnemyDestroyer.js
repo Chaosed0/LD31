@@ -12,6 +12,7 @@ define(function(require) {
         _destroyheavy: false,
 
         _score: 0,
+        _combo: -1,
 
         _onHit: function(hitData) {
             for(var i = 0; i < hitData.length; i++) {
@@ -25,7 +26,6 @@ define(function(require) {
                     } else {
                         score = 50;
                     }
-
                     this._score += score;
                     
                     var slashimg = Crafty.e('2D, Canvas, slash, SpriteAnimation, Expires')
@@ -43,6 +43,26 @@ define(function(require) {
                     slashimg.rotation = this.rotation + 90;
                     bloodsprite.rotation = this.rotation + 90;
 
+                    if(this._combo >= 0) {
+                        if(this._combo > 0) { 
+                            var textsize = 8 + this._combo * 4;
+                            var redness = Math.min(0 + this._combo * 20, 255);
+                            var rednessHex = redness.toString(16);
+                            if(rednessHex.length < 2) {
+                                rednessHex = '0' + rednessHex;
+                            }
+
+                            Crafty.e('2D, Canvas, Text, Expires')
+                                .attr({x: entityHit.x, y: entityHit.y, w:20, h:20})
+                                .textFont({size:textsize + 'px'})
+                                .textColor('#' + rednessHex + '0000')
+                                .text('+' + this._combo*10)
+                                .expires(1000);
+                            score += this._combo*10;
+                        }
+                        this._combo++;
+                    }
+
                     entityHit.destroy();
                     this.trigger('EnemyKill');
                 }
@@ -55,11 +75,13 @@ define(function(require) {
 
         _onStartDash: function() {
             this._destroyheavy = true;
+            this._combo = 0;
         },
 
         _onEndDash: function() {
             this._destroylight = false;
             this._destroyheavy = false;
+            this._combo = -1;
         },
 
         init: function() {

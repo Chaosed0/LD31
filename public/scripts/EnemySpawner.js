@@ -8,11 +8,12 @@ define(function(require) {
         _mintime: 500,
         _maxtime: 1000,
         _radius: 500,
-        _lightchance: 0.95,
+        _lightchance: 0.90,
 
-        _time: 0,
+        _time: 1000,
         _timer : 0,
         _nextspawn: 0,
+        _sinceheavy: 0,
 
         _difficultytime: 1000,
         _difficultytimer: 0,
@@ -25,20 +26,20 @@ define(function(require) {
             var pos = spawnerpos.add(
                     new Vec2d(this._radius * Math.cos(angle), this._radius * Math.sin(angle)));
 
-            console.log(rand);
-
-            if(rand < this._lightchance) {
+            if(rand < this._lightchance && this._sinceheavy < 9) {
                 var enemy = Crafty.e('2D, Canvas, Color, FollowPlayer, Enemy')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10})
                     .color('green')
                     .followplayer('Player', 4)
                     .setLight();
+                this._sinceheavy++;
             } else {
                 var enemy = Crafty.e('2D, Canvas, Color, FollowPlayerVary, Enemy')
                     .attr({x: pos.x, y: pos.y, w: 15, h: 15})
                     .color('#0000FF')
                     .followplayer('Player', 1, 8, 0.01)
                     .setHeavy();
+                this._sinceheavy = 0;
             }
         },
 
