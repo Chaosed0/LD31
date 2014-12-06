@@ -104,16 +104,17 @@ define(function(require) {
                     this._moveangle += turnDir * Math.min(Math.abs(this._moveangle - this._targetangle),
                             this._turnrate);
                     this._moveangle = constrainAngle(this._moveangle);
+
+                    this.rotation = this._moveangle * 360.0/(2*pi) + 90;
                 }
 
                 var position = new Vec2d(this.x, this.y);
                 var movement = new Vec2d(this._speed * Math.cos(this._moveangle),
                                 this._speed * Math.sin(this._moveangle));
+                console.log(movement.magnitude());
                 this.x += movement.x;
                 this.y += movement.y;
                 this.trigger('Moved', {x: this.x - movement.x, y: this.y - movement.y});
-            } else {
-                this._moveangle = this._targetangle;
             }
         },
 
