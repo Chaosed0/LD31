@@ -1,16 +1,17 @@
 
 define(function(require) {
+    require('scripts/FollowMouse.js');
+
     var Crafty = require('crafty');
     var $ = require('jquery');
 
-    Crafty.init(800, 600, $('#game')[0]);
-    Crafty.e('2D, DOM, Color, Twoway, Gravity')
-        .attr({x: 0, y: 0, w: 100, h: 100})
+    Crafty.init(1280, 1024, $('#game')[0]);
+    Crafty.e('2D, DOM, Color, FollowMouse')
+        .attr({x: 400, y: 300, w: 10, h: 10})
         .color('#F00')
-        .twoway(4, 5)
-        .gravity('Floor');
+        .followmouse(8, 0.1, 0.1);
 
-    Crafty.e('Floor, 2D, Canvas, Color')
-        .attr({x: 0, y: 250, w: 250, h: 10})
+    Crafty.e('2D, DOM, Color')
+        .attr({x: 0, y: 0, w: 10, h: 10})
         .color('green');
 });
