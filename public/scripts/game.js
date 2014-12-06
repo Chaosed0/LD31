@@ -14,8 +14,8 @@ define(function(require) {
     require('scripts/ProjectileThrower.js');
     require('scripts/Shuriken.js');
     
-    var width = 1000;
-    var height = 1000;
+    var width = 1024;
+    var height = 800;
 
     Crafty.init(width, height, document.getElementById('game'));
     Crafty.background('#EFEFEF');
