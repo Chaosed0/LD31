@@ -30,14 +30,14 @@ define(function(require) {
             .attr({x: width/2.0, y: height/2.0, w: 10, h: 10})
             .origin(5, 5)
             .color('black')
-            .followmouse(8, 0.1, 0.2)
+            .followmouse(8, 0.3, 0.2)
             .collision([-10.0, -10.0], [30.0, -10.0], [30.0, 30.0], [-10.0, 30.0])
             .checkHits('Enemy')
             .enemydestroyer();
 
         var enemyspawner = Crafty.e('2D, EnemySpawner')
             .attr({x:width/2.0, y: height/2.0, w: 0, h: 0})
-            .enemyspawner(500, 2000, height/2.0, 0.7);
+            .enemyspawner(200, 1000, height/2.0, 0.9);
 
         player.bind('Lose', function() {
             pauseGame('You have died');

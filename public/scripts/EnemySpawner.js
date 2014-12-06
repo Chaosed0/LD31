@@ -5,7 +5,7 @@ define(function(require) {
     var pi = 3.14159;
 
     Crafty.c("EnemySpawner", {
-        _mintime: 50,
+        _mintime: 500,
         _maxtime: 1000,
         _radius: 500,
         _lightchance: 0.95,
@@ -16,7 +16,7 @@ define(function(require) {
 
         _difficultytime: 1000,
         _difficultytimer: 0,
-        _reduction: 5,
+        _reduction: 10,
 
         _spawn: function() {
             var rand = Math.random();
@@ -24,6 +24,8 @@ define(function(require) {
             var spawnerpos = new Vec2d(this.x, this.y);
             var pos = spawnerpos.add(
                     new Vec2d(this._radius * Math.cos(angle), this._radius * Math.sin(angle)));
+
+            console.log(rand);
 
             if(rand < this._lightchance) {
                 var enemy = Crafty.e('2D, Canvas, Color, FollowPlayer, Enemy')
@@ -56,8 +58,7 @@ define(function(require) {
             if(this._time > this._mintime &&
                     this._difficultytimer  > this._difficultytime) {
                 this._time -= this._reduction;
-                this.difficultytimer -= this._difficultytime;
-                console.log(this._time
+                this._difficultytimer -= this._difficultytime;
             }
         },
 

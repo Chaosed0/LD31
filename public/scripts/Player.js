@@ -16,7 +16,6 @@ define(function(require) {
             for(var i = 0; i < q.length; i++) {
                 var obj = q[i];
                 if(obj !== this && obj.has('Enemy') && obj.intersect(pos)) {
-                    console.log('feh');
                     this.trigger('Lose', obj);
                 }
             }

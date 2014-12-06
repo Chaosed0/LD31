@@ -83,7 +83,7 @@ define(function(require) {
                     }
                 } else {
                     if(this._speed > 0) {
-                        this._speed -= this._acceleration * 30.0;
+                        this._speed -= 3.0;
                     } else if(this._speed <= 0) {
                         this._dashing = false;
                         this.trigger('StopDash');
