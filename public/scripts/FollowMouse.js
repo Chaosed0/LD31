@@ -52,7 +52,7 @@ define(function(require) {
             var rel = target.subtract(position);
             this._targetangle = Math.atan2(rel.y, rel.x);
 
-            if(!this._dashing && this._speed >= this._maxspeed) {
+            if(!this._dashing && this._speed >= 0) {
                 var dashdir = target.subtract(position);
                 this._dashing = true;
                 this._speed = this._maxspeed * 5.0;

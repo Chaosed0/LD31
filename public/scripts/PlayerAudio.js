@@ -3,9 +3,6 @@ define(function(require) {
     var Crafty = require('crafty');
 
     Crafty.audio.add({
-        sworddraw: ['audio/sworddraw.wav',
-                    'audio/sworddraw.mp3',
-                    'audio/sworddraw.ogg'],
         swordaway: ['audio/swordaway.wav',
                     'audio/swordaway.mp3',
                     'audio/swordaway.ogg'],
@@ -30,7 +27,7 @@ define(function(require) {
         },
 
         _onMaxMove: function() {
-            Crafty.audio.play('sworddraw');
+            //Crafty.audio.play('sworddraw');
         },
 
         _onStartDash: function() {
