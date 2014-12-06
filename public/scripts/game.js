@@ -18,6 +18,7 @@ define(function(require) {
     var height = 1000;
 
     Crafty.init(width, height, document.getElementById('game'));
+    Crafty.background('#EFEFEF');
 
     var pauseText = Crafty.e('2D, Canvas, Text')
             .attr({x: width/2.0, y: height/2.0, z: 1000})
@@ -49,7 +50,7 @@ define(function(require) {
             .text('Best Combo: 0');
 
         player.bind('Lose', function() {
-            pauseGame('You have died');
+            pauseGame('You have died.');
             resumeGameFunc =  function() {
                 var ents = Crafty('obj');
                 ents.each(function() {
