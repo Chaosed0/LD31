@@ -6,17 +6,20 @@ define(function(require) {
     Crafty.c("Player", {
 
         _enterframe: function(data) {
-            var pos = this.pos();
-            pos.x = pos._x;
-            pos.y = pos._y;
-            pos.w = pos._w;
-            pos.h = pos._h;
+            //Occasionally you can die while dashing, prevent it
+            if(!this._dashing) {
+                var pos = this.pos();
+                pos.x = pos._x;
+                pos.y = pos._y;
+                pos.w = pos._w;
+                pos.h = pos._h;
 
-            var q = Crafty.map.search(pos);
-            for(var i = 0; i < q.length; i++) {
-                var obj = q[i];
-                if(obj !== this && obj.has('Enemy') && obj.intersect(pos)) {
-                    this.trigger('Lose', obj);
+                var q = Crafty.map.search(pos);
+                for(var i = 0; i < q.length; i++) {
+                    var obj = q[i];
+                    if(obj !== this && obj.has('KillPlayer') && obj.intersect(pos)) {
+                        this.trigger('Lose', obj);
+                    }
                 }
             }
         },

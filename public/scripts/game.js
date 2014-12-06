@@ -11,6 +11,8 @@ define(function(require) {
     require('scripts/EnemyDestroyer.js');
     require('scripts/EnemySpawner.js');
     require('scripts/Enemy.js');
+    require('scripts/ProjectileThrower.js');
+    require('scripts/Shuriken.js');
     
     var width = 1280;
     var height = 1024;
@@ -18,7 +20,7 @@ define(function(require) {
     Crafty.init(width, height, document.getElementById('game'));
 
     var pauseText = Crafty.e('2D, Canvas, Text')
-            .attr({x: width/2.0, y: height/2.0})
+            .attr({x: width/2.0, y: height/2.0, z: 1000})
             .textFont({size: '30px', weight: 'bold'});
     pauseText.visible = false;
 
@@ -37,9 +39,14 @@ define(function(require) {
             .attr({x:width/2.0, y: height/2.0, w: 0, h: 0});
 
         var scoretext = Crafty.e('2D, Canvas, Text')
-            .attr({x: 0, y: 0})
-            .textFont({size: '10px', weight: 'bold'})
+            .attr({x: 0, y: 0, z: 1000})
+            .textFont({size: '14px'})
             .text('Score: 0');
+
+        var combotext = Crafty.e('2D, Canvas, Text')
+            .attr({x: 0, y: 20, z: 1000})
+            .textFont({size: '14px'})
+            .text('Best Combo: 0');
 
         player.bind('Lose', function() {
             pauseGame('You have died');
@@ -58,6 +65,10 @@ define(function(require) {
 
         player.bind('ScoreChange', function(newscore) {
             scoretext.text('Score: ' + newscore);
+        });
+
+        player.bind('BestComboChange', function(newcombo) {
+            combotext.text('Best Combo: ' + newcombo);
         });
     }
 

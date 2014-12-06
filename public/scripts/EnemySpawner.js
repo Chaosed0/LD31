@@ -7,13 +7,17 @@ define(function(require) {
     Crafty.c("EnemySpawner", {
         _mintime: 500,
         _maxtime: 1000,
-        _radius: 500,
-        _lightchance: 0.90,
+        _width: 1280,
+        _height: 1024,
+        _lightchance: 0.80,
+        _heavychance: 0.10,
+        _throwerchance: 0.10,
 
         _time: 1000,
         _timer : 0,
         _nextspawn: 0,
         _sinceheavy: 0,
+        _sincethrower: 0,
 
         _difficultytime: 1000,
         _difficultytimer: 0,
@@ -26,16 +30,25 @@ define(function(require) {
             var pos = spawnerpos.add(
                     new Vec2d(this._radius * Math.cos(angle), this._radius * Math.sin(angle)));
 
-            if(rand < this._lightchance && this._sinceheavy < 9) {
-                var enemy = Crafty.e('2D, Canvas, Color, FollowPlayer, Enemy')
-                    .attr({x: pos.x, y: pos.y, w: 10, h: 10})
+            if(rand < this._lightchance && this._sinceheavy < 9 && this._sincethrower < 9) {
+                var enemy = Crafty.e('2D, Canvas, Color, FollowPlayer, Enemy, KillPlayer')
+                    .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('green')
                     .followplayer('Player', 4)
                     .setLight();
                 this._sinceheavy++;
+                this._sincethrower++;
+            } else if (this._sincethrower >= 9 ||
+                    rand >= this._lightchance && rand < this._lightchance + this._throwerchance) {
+                var enemy = Crafty.e('2D, Canvas, Color, ProjectileThrower, Enemy, KillPlayer')
+                    .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
+                    .color('blue')
+                    .projectilethrower('Player', 15)
+                    .setLight();
+                this._sincethrower = 0;
             } else {
-                var enemy = Crafty.e('2D, Canvas, Color, FollowPlayerVary, Enemy')
-                    .attr({x: pos.x, y: pos.y, w: 15, h: 15})
+                var enemy = Crafty.e('2D, Canvas, Color, FollowPlayerVary, Enemy, KillPlayer')
+                    .attr({x: pos.x, y: pos.y, w: 15, h: 15, z: 1})
                     .color('#0000FF')
                     .followplayer('Player', 1, 8.5, 0.01)
                     .setHeavy();

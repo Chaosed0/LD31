@@ -12,28 +12,21 @@ define(function(require) {
 
         _score: 0,
         _combo: -1,
+        _bestcombo: 0,
 
         _onHit: function(hitData) {
             for(var i = 0; i < hitData.length; i++) {
                 var entityHit = hitData[i].obj;
                 if(this._destroy) {
-                    var score;
-
-                    if(entityHit._light) {
-                        score = 10;
-                    } else {
-                        score = 50;
-                    }
-                    this._score += score;
                     
                     var slashimg = Crafty.e('2D, Canvas, slash, SpriteAnimation, Expires')
-                        .attr({x: entityHit.x + 10, y: entityHit.y+10, w:20, h:20})
+                        .attr({x: entityHit.x + 10, y: entityHit.y+10, w:20, h:20, z: -999})
                         .reel('slash', 50, 0, 0, 5)
                         .animate('slash')
                         .expires(100)
                         .origin(10, 10);
                     var bloodsprite = Crafty.e('2D, Canvas, bloodspray, SpriteAnimation')
-                        .attr({x: entityHit.x + 10, y: entityHit.y + 10, w:20, h:20})
+                        .attr({x: entityHit.x + 10, y: entityHit.y + 10, w:20, h:20, z: -1000})
                         .reel('spray', 100, 0, 0, 5)
                         .animate('spray')
                         .origin(10, 10);
@@ -56,7 +49,7 @@ define(function(require) {
                                 .textColor('#' + rednessHex + '0000')
                                 .text('+' + this._combo*10)
                                 .expires(1000);
-                            score += this._combo*10;
+                            this._score += this._combo*10;
                         }
                         this._combo++;
                     }
@@ -77,6 +70,10 @@ define(function(require) {
         },
 
         _onEndDash: function() {
+            if(this._combo > this._bestcombo) {
+                this._bestcombo = this._combo;
+                this.trigger('BestComboChange', this._bestcombo);
+            }
             this._destroy= false;
             this._combo = -1;
         },
