@@ -70,7 +70,7 @@ define(function(require) {
                 this._score += this._comboval;
 
                 var textsize = 8 + this._comboval / 5.0;
-                var redness = Math.min(0 + this._comboval, 255);
+                var redness = Math.min(this._comboval/2.0, 255);
                 var rednessHex = redness.toString(16);
                 if(rednessHex.length < 2) {
                     rednessHex = '0' + rednessHex;
