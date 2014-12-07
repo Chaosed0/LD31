@@ -19,7 +19,7 @@ define(function(require) {
 
         _difficultytime: 1000,
         _difficultytimer: 0,
-        _reduction: 10,
+        _reduction: 5,
 
         _spawn: function() {
             var randspawn = Math.random();
