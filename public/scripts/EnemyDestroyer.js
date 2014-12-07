@@ -75,8 +75,10 @@ define(function(require) {
                 var enemy = Crafty('Enemy').get(0);
                 if(enemy === undefined) {
                     this._bombing = false;
-                    //Don't count the bomb as a combo
-                    this._combo = 0;
+                    //Don't count the bomb as a combo - just reset without
+                    // telling anyone
+                    this._combo = -1;
+                    this._comboval = 0;
                     this.unbind('EnterFrame', this._bombframe);
                     this.trigger('EndBomb');
                 } else {
