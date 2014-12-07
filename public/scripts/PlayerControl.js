@@ -42,7 +42,7 @@ define(function(require) {
         _speed: 0,
         _maxspeed: 8,
         _acceleration: 0.3,
-        _turnrate: 0.2,
+        _turnrate: 0.4,
         _hitmaxspeed: false,
 
         _dashing: false,
@@ -140,7 +140,7 @@ define(function(require) {
             this.bind("EnterFrame", this._enterframe);
         },
 
-        followmouse: function(maxspeed, acceleration, turnrate) {
+        playercontrol: function(maxspeed, acceleration, turnrate) {
             this._maxspeed = maxspeed;
             this._acceleration = acceleration;
             this._turnrate = turnrate;
