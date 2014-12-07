@@ -7,7 +7,7 @@ define(function(require) {
     Crafty.sprite(20, 20, "image/blood.png", {bloodspray:[0, 0]});
     Crafty.sprite(20, 20, "image/slash.png", {slash:[0, 0]});
 
-    var bombmeter_max = 40;
+    var bombmeter_max = 30;
     var special_combo_val = 50;
     var normal_combo_val = 10;
 
