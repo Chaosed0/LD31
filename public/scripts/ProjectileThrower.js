@@ -24,8 +24,8 @@ define(function(require) {
         _cachedplayer: null,
         _target: null,
 
-        _prethrowtime: 500,
-        _postthrowtime: 1000,
+        _prethrowtime: 1500,
+        _postthrowtime: 500,
 
         _enterframe: function(data) {
             if(this._cachedplayer == null) {
