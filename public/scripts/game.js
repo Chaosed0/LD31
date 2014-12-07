@@ -13,6 +13,7 @@ define(function(require) {
     require('scripts/Enemy.js');
     require('scripts/ProjectileThrower.js');
     require('scripts/Shuriken.js');
+    require('scripts/Meter.js');
     
     var width = 1024;
     var height = 800;
@@ -21,13 +22,15 @@ define(function(require) {
     Crafty.background('#EFEFEF');
 
     var pauseText = Crafty.e('2D, Canvas, Text')
-            .attr({x: width/2.0, y: height/2.0, z: 1000})
+            .attr({x: width/2.0 - 100, y: height/2.0 - 15, z: 1000})
             .textFont({size: '30px', weight: 'bold'});
     pauseText.visible = false;
 
     var resumeGameFunc;
 
     var init = function() {
+        var bestcombo = 0;
+
         var player = Crafty.e('2D, Canvas, Color, FollowMouse, Collision, EnemyDestroyer, PlayerAudio, Player')
             .attr({x: width/2.0, y: height/2.0, w: 10, h: 10})
             .origin(5, 5)
@@ -50,6 +53,10 @@ define(function(require) {
             .textFont({size: '14px'})
             .text('Best Combo: 0');
 
+        var combometer = Crafty.e('2D, Canvas, Meter')
+            .attr({x: width - 105, y: 5, w: 100, h: 20, z: 1000})
+            .meter('#0000FF');
+
         player.bind('Lose', function() {
             pauseGame('You have died.');
             resumeGameFunc =  function() {
@@ -62,22 +69,33 @@ define(function(require) {
                 init();
                 resumeGame();
             };
-            Crafty.addEvent(self, Crafty.stage.elem, "mousedown", resumeGameFunc);
+            setTimeout(function() {
+                //Often, the player will immediately click trying to dodge death,
+                // causing unintended game restart - hack around it
+                Crafty.addEvent(self, Crafty.stage.elem, "mousedown", resumeGameFunc)
+            }, 100);
         });
 
         player.bind('ScoreChange', function(newscore) {
             scoretext.text('Score: ' + newscore);
         });
 
-        player.bind('BestComboChange', function(newcombo) {
-            combotext.text('Best Combo: ' + newcombo);
+        player.bind('NewCombo', function(newcombo) {
+            if(newcombo > bestcombo) {
+                bestcombo = newcombo;
+            }
+            combotext.text('Best Combo: ' + bestcombo);
+        });
+
+        player.bind('NewMeter', function(newmeter) {
+            combometer.fillpercent(newmeter);
         });
     }
 
     var pauseGame = function(msg) {
-        Crafty.pause();
         pauseText.text(msg);
         pauseText.visible = true;
+        Crafty.pause();
     };
 
     var resumeGame = resumeGameFunc = function() {
@@ -88,6 +106,10 @@ define(function(require) {
     };
 
     init();
-    pauseGame('Click to start');
+    pauseText.text("Click to start");
+    pauseText.visible = true;
+    //Sometimes, the game doesn't even render one frame before pausing
+    Crafty.timer.step();
+    Crafty.pause();
     Crafty.addEvent(self, Crafty.stage.elem, "mousedown", resumeGameFunc);
 });

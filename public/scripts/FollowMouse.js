@@ -47,17 +47,32 @@ define(function(require) {
         _moveangle: 0,
 
         _mousedown: function(e) {
-            var position = new Vec2d(this.x, this.y);
-            var target = new Vec2d(e.realX, e.realY);
-            var rel = target.subtract(position);
-            this._targetangle = Math.atan2(rel.y, rel.x);
+            if(e.mouseButton == 0) {
+                //LMB
+                var position = new Vec2d(this.x, this.y);
+                var target = new Vec2d(e.realX, e.realY);
+                var rel = target.subtract(position);
+                this._targetangle = Math.atan2(rel.y, rel.x);
 
-            if(!this._dashing && this._speed >= 0) {
-                var dashdir = target.subtract(position);
-                this._dashing = true;
-                this._speed = this._maxspeed * 5.0;
-                this._moveangle = this._targetangle;
-                this.trigger('StartDash');
+                if(!this._dashing && this._speed >= 0) {
+                    var dashdir = target.subtract(position);
+                    this._dashing = true;
+                    this._speed = this._maxspeed * 5.0;
+                    this._moveangle = this._targetangle;
+                    this.trigger('StartDash');
+                }
+            } else if(e.mouseButton == 2 && this._canBomb()) {
+                //RMB, bomb - pass control to entityDestroyer
+               this._speed = 0;
+               this._moving = true;
+               this._dashing = false;
+               this.visible = false;
+               this.trigger('StopDash');
+               this.trigger('StartBomb');
+               this.bind('EndBomb', function() {
+                   this.visible = true;
+                   this._moving = true;
+               });
             }
         },
 
