@@ -148,10 +148,13 @@ define(function(require) {
             this._combo = 0;
         },
 
-        _onEndDash: function() {
-            this._bombmeter = Math.min(this._bombmeter + Math.max(0, this._combo - 1), bombmeter_max);
-            this.trigger('NewCombo', this._combo);
+        _increasebombmeter: function(increase) {
+            this._bombmeter = Math.min(this._bombmeter + Math.max(0, increase - 1), bombmeter_max)
             this.trigger('NewMeter', this._bombmeter / bombmeter_max * 100);
+        },
+
+        _onEndDash: function() {
+            this.trigger('NewCombo', this._combo);
             this._comboval = 0;
             this._destroy= false;
             this._combo = -1;
@@ -164,6 +167,7 @@ define(function(require) {
             this.bind('StartDash', this._onStartDash);
             this.bind('StopDash', this._onEndDash);
             this.bind('StartBomb', this._startbomb);
+            this.bind('NewCombo', this._increasebombmeter);
         },
 
         enemydestroyer: function() {
