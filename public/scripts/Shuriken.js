@@ -3,6 +3,8 @@ define(function(require) {
     var Crafty = require('crafty');
     var Vec2d = Crafty.math.Vector2D;
 
+    Crafty.audio.add('throw', ['audio/throw.ogg', 'audio/throw.mp3', 'audio/throw.wav']);
+
     Crafty.c("Shuriken", {
         _rotation: 10,
         _speed: 10,
@@ -22,6 +24,7 @@ define(function(require) {
 
         init: function() {
             this.bind("EnterFrame", this._enterframe);
+            Crafty.audio.play("throw");
         },
 
         shuriken: function(target) {
