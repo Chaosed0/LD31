@@ -34,6 +34,7 @@ define(function(require) {
             .color('black')
             .collision([-10.0, -10.0], [30.0, -10.0], [30.0, 30.0], [-10.0, 30.0])
             .checkHits('Enemy')
+            .player(width, height)
             .enemydestroyer();
 
         var enemyspawner = Crafty.e('2D, EnemySpawner')

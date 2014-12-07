@@ -4,6 +4,7 @@ define(function(require) {
     var Vec2d = Crafty.math.Vector2D;
 
     Crafty.c("Player", {
+        _bounds: new Vec2d(0,0),
 
         _enterframe: function(data) {
             //Occasionally you can die while dashing, prevent it
@@ -22,10 +23,28 @@ define(function(require) {
                     }
                 }
             }
+
+            //Don't go out of bounds
+            if(this.x > this._bounds.x - this.w) {
+                this.x = this._bounds.x - this.w;
+            } else if(this.x < 0) {
+                this.x = 0;
+            }
+
+            if(this.y > this._bounds.y - this.h) {
+                this.y = this._bounds.y - this.h;
+            } else if(this.y < 0) {
+                this.y = 0;
+            }
         },
 
         init: function() {
             this.bind('EnterFrame', this._enterframe);
+        },
+
+        player: function(stageWidth, stageHeight) {
+            this._bounds = new Vec2d(stageWidth, stageHeight);
+            return this;
         }
     });
 });
