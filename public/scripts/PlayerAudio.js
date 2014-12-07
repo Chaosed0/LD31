@@ -15,19 +15,15 @@ define(function(require) {
         slash3:    ['audio/slash3.wav',
                     'audio/slash3.mp3',
                     'audio/slash3.ogg'],
-        slash5:    ['audio/sworddraw.wav',
-                    'audio/sworddraw.mp3',
-                    'audio/sworddraw.ogg'],
     });
 
     Crafty.c("PlayerAudio", {
         _onEnemyKill: function() {
-            var slashnum = Math.floor(Math.random() * 4) + 1
+            var slashnum = Math.floor(Math.random() * 3) + 1
             Crafty.audio.play('slash' + slashnum);
         },
 
         _onMaxMove: function() {
-            //Crafty.audio.play('sworddraw');
         },
 
         _onStartDash: function() {
@@ -40,7 +36,6 @@ define(function(require) {
         },
 
         _onEndDash: function() {
-            //Crafty.audio.play('swordaway');
         },
 
         init: function() {
