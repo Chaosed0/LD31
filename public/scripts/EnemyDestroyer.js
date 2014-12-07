@@ -17,7 +17,7 @@ define(function(require) {
         _score: 0,
         _combo: -1,
         _comboval: 0,
-        _bombmeter: 30,
+        _bombmeter: 0,
         _bombtimer: 0,
         _bombtime: 100,
         _bombing: false,
