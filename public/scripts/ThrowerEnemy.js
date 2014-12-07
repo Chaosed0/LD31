@@ -17,8 +17,8 @@ define(function(require) {
         _state: state.startDash,
         _timer: 1000,
         _speed: 0,
-        _dashspeed: 30,
-        _deceleration: 3,
+        _dashspeed: 5,
+        _deceleration: 0.07,
         _comp: 'Player',
 
         _cachedplayer: null,

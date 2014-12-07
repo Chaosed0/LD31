@@ -49,7 +49,7 @@ define(function(require) {
                 var enemy = Crafty.e('2D, Canvas, Color, ThrowerEnemy, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('blue')
-                    .throwerenemy('Player', 30)
+                    .throwerenemy('Player', 5)
                     .enemy(true);
                 this._sincethrower = 0;
             } else {
