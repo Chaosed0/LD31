@@ -69,7 +69,7 @@ define(function(require) {
                 }
                 this._score += this._comboval;
 
-                var textsize = 8 + this._comboval / 5.0;
+                var textsize = 8 + this._comboval / 10.0;
                 var redness = Math.min(this._comboval/2.0, 255);
                 var rednessHex = redness.toString(16);
                 if(rednessHex.length < 2) {
