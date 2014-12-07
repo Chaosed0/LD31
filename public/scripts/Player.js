@@ -5,10 +5,10 @@ define(function(require) {
 
     Crafty.c("Player", {
         _bounds: new Vec2d(0,0),
+        _invincible: false,
 
         _enterframe: function(data) {
-            //Occasionally you can die while dashing, prevent it
-            if(!this._dashing) {
+            if(!this._invincible) {
                 var pos = this.pos();
                 pos.x = pos._x;
                 pos.y = pos._y;
@@ -38,8 +38,20 @@ define(function(require) {
             }
         },
 
+        setInvincible: function() {
+            this._invincible = true;
+        },
+
+        unsetInvincible: function() {
+            this._invincible = false;
+        },
+
         init: function() {
             this.bind('EnterFrame', this._enterframe);
+            this.bind('StartDash', this.setInvincible);
+            this.bind('StartBomb', this.setInvincible);
+            this.bind('StopDash', this.unsetInvincible);
+            this.bind('StopDash', this.unsetInvincible);
         },
 
         player: function(stageWidth, stageHeight) {
