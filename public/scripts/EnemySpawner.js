@@ -4,12 +4,15 @@ define(function(require) {
     var Vec2d = Crafty.math.Vector2D;
     var pi = 3.14159;
 
+    var timerreduction = 5;
+    var chanceincrease = 0.04;
+
     Crafty.c("EnemySpawner", {
         _mintime: 200,
         _maxtime: 1000,
-        _lightchance: 0.80,
-        _heavychance: 0.10,
-        _throwerchance: 0.10,
+        _lightchance: 8,
+        _heavychance: 1,
+        _throwerchance: 1,
 
         _time: 1000,
         _timer : 0,
@@ -19,12 +22,12 @@ define(function(require) {
 
         _difficultytime: 1000,
         _difficultytimer: 0,
-        _reduction: 5,
 
         _spawn: function() {
             var randspawn = Math.random();
             var side = Math.floor(Math.random() * 4);
             var pos = new Vec2d(0, 0);
+
             if(side == 0 || side == 2) {
                 pos.x = Math.random() * this.w;
             } else if(side == 1) {
@@ -36,7 +39,12 @@ define(function(require) {
                 pos.y = this.h;
             }
 
-            if(randspawn < this._lightchance && this._sinceheavy < 9 && this._sincethrower < 9) {
+            var totalchance = this._lightchance + this._heavychance + this._throwerchance;
+            var lightchance = this._lightchance / totalchance;
+            var heavychance = this._heavychance / totalchance;
+            var throwerchance = this._throwerchance / totalchance;
+
+            if(randspawn < lightchance && this._sinceheavy < 9 && this._sincethrower < 9) {
                 var enemy = Crafty.e('2D, Canvas, Color, SimpleEnemy, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('green')
@@ -45,7 +53,7 @@ define(function(require) {
                 this._sinceheavy++;
                 this._sincethrower++;
             } else if (this._sincethrower >= 9 ||
-                    randspawn >= this._lightchance && randspawn < this._lightchance + this._throwerchance) {
+                    (randspawn >= lightchance && randspawn < lightchance + throwerchance)) {
                 var enemy = Crafty.e('2D, Canvas, Color, ThrowerEnemy, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('blue')
@@ -66,6 +74,13 @@ define(function(require) {
             this._nextspawn = this._time;
         },
 
+        _difficultyup: function() {
+            this._time -= timerreduction;
+            this._heavychance += chanceincrease;
+            this._throwerchance += chanceincrease;
+
+        },
+
         _enterframe: function(data) {
             this._timer += data.dt;
             this._difficultytimer += data.dt;
@@ -77,7 +92,7 @@ define(function(require) {
 
             if(this._time > this._mintime &&
                     this._difficultytimer  > this._difficultytime) {
-                this._time -= this._reduction;
+                this._difficultyup();
                 this._difficultytimer -= this._difficultytime;
             }
         },
