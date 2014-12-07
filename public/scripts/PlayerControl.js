@@ -4,6 +4,9 @@ define(function(require) {
     var Vec2d = Crafty.math.Vector2D;
     var pi = 3.14159;
 
+    var dashdecel = 3.0;
+    var maxdashspeed = 40.0;
+
     var turnTowards = function(from, to) {
         var c1 = to - from;
         var c2 = to + 2*pi - from;
@@ -55,9 +58,11 @@ define(function(require) {
                 this._targetangle = Math.atan2(rel.y, rel.x);
 
                 if(!this._dashing && this._speed >= 0) {
-                    var dashdir = target.subtract(position);
                     this._dashing = true;
-                    this._speed = this._maxspeed * 5.0;
+                    //Dash to mouse pointer; I derived this equation for speed
+                    this._speed = Math.sqrt(2 * dashdecel * rel.magnitude());
+                    this._speed = Math.min(this._speed, maxdashspeed);
+                    console.log(this._speed);
                     this._moveangle = this._targetangle;
                     this.trigger('StartDash');
                 }
@@ -98,7 +103,7 @@ define(function(require) {
                     }
                 } else {
                     if(this._speed > 0) {
-                        this._speed -= 3.0;
+                        this._speed -= dashdecel;
                     } else if(this._speed <= 0) {
                         this._dashing = false;
                         this.trigger('StopDash');
