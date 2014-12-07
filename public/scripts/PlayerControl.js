@@ -70,7 +70,7 @@ define(function(require) {
             } else if(e.mouseButton == 2 && this._canBomb()) {
                 //RMB, bomb - pass control to entityDestroyer
                this._speed = 0;
-               this._moving = true;
+               this._moving = false;
                this._dashing = false;
                this.visible = false;
                this.trigger('StopDash');
