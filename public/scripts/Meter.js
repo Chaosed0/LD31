@@ -5,15 +5,20 @@ define(function(require) {
 
     Crafty.c("Meter", {
         _fillpercent: 0,
-        _flashonfill: true,
-        _color: '#0000FF',
+        _color: '#0000BB',
+        _fullcolor: '#BB3333',
         ready: true,
 
         _draw: function(e) {
             if(e.type == 'canvas') {
                 e.ctx.fillStyle = '#000000';
                 e.ctx.strokeRect(e.pos._x, e.pos._y, e.pos._w, e.pos._h);
-                e.ctx.fillStyle = this._color;
+
+                if(this._fillpercent >= 100) {
+                    e.ctx.fillStyle = this._fullcolor;
+                } else {
+                    e.ctx.fillStyle = this._color;
+                }
                 e.ctx.fillRect(e.pos._x, e.pos._y, this._fillpercent/100.0 * e.pos._w, e.pos._h);
             } else {
                 e.destroy();

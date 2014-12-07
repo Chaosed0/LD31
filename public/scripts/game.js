@@ -71,7 +71,7 @@ define(function(require) {
 
         var combometer = Crafty.e('2D, Canvas, Meter')
             .attr({x: width - 105, y: 5, w: 100, h: 20, z: 1000})
-            .meter('#0000FF');
+            .meter('#0000BB');
 
         player.bind('Lose', function() {
             Crafty.audio.stop('bgmusic');
