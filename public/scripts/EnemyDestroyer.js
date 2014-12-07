@@ -119,7 +119,7 @@ define(function(require) {
         },
 
         _onEndDash: function() {
-            this._bombmeter = Math.min(Math.max(0, this._bombmeter + this._combo - 1), bombmeter_max);
+            this._bombmeter = Math.min(this._bombmeter + Math.max(0, this._combo - 1), bombmeter_max);
             this.trigger('NewCombo', this._combo);
             this.trigger('NewMeter', this._bombmeter / bombmeter_max * 100);
             this._comboval = 0;
