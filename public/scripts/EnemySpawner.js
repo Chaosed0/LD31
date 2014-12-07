@@ -5,7 +5,7 @@ define(function(require) {
     var pi = 3.14159;
 
     Crafty.c("EnemySpawner", {
-        _mintime: 500,
+        _mintime: 200,
         _maxtime: 1000,
         _lightchance: 0.80,
         _heavychance: 0.10,
