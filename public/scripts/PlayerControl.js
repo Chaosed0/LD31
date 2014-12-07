@@ -7,6 +7,7 @@ define(function(require) {
     var dashdecel = 3.0;
     var maxdashspeed = 40.0;
     var mindashspeed = 30.0;
+    var enddashspeed = 1.0;
 
     var turnTowards = function(from, to) {
         var c1 = to - from;
@@ -103,9 +104,9 @@ define(function(require) {
                         }
                     }
                 } else {
-                    if(this._speed > 0) {
+                    if(this._speed > enddashspeed) {
                         this._speed -= dashdecel;
-                    } else if(this._speed <= 0) {
+                    } else {
                         this._dashing = false;
                         this.trigger('StopDash');
                     }
