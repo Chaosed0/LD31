@@ -53,7 +53,7 @@ define(function(require) {
         _moveangle: 0,
 
         _mousedown: function(e) {
-            if(e.mouseButton == 0) {
+            if(e.mouseButton == 0 && this._moving) {
                 //LMB
                 var position = new Vec2d(this.x, this.y);
                 var target = new Vec2d(e.realX, e.realY);
