@@ -48,6 +48,7 @@ define(function(require) {
         _hitmaxspeed: false,
 
         _dashing: false,
+        _target: new Vec2d(0,0),
         _targetangle: 0,
         _moveangle: 0,
 
@@ -84,10 +85,7 @@ define(function(require) {
         },
 
         _mousemove: function(e) {
-            var position = new Vec2d(this.x, this.y);
-            var target = new Vec2d(e.realX, e.realY);
-            var rel = target.subtract(position);
-            this._targetangle = Math.atan2(rel.y, rel.x);
+            this._target = new Vec2d(e.realX, e.realY);
         },
 
         _enterframe: function() {
@@ -114,22 +112,28 @@ define(function(require) {
             }
 
             if(this._speed > 0) {
+                var position = new Vec2d(this.x, this.y);
+                var rel = this._target.clone().subtract(position);
                 //Don't change direction while dashing
                 if(!this._dashing) {
-                    var turnDir = turnTowards(this._moveangle, this._targetangle);
-                    this._moveangle += turnDir * Math.min(Math.abs(this._moveangle - this._targetangle),
+                    var targetangle = Math.atan2(rel.y, rel.x);
+                    var turnDir = turnTowards(this._moveangle, targetangle);
+                    this._moveangle += turnDir * Math.min(Math.abs(this._moveangle - targetangle),
                             this._turnrate);
                     this._moveangle = constrainAngle(this._moveangle);
 
                     this.rotation = this._moveangle * 360.0/(2*pi) + 90;
                 }
 
-                var position = new Vec2d(this.x, this.y);
-                var movement = new Vec2d(this._speed * Math.cos(this._moveangle),
-                                this._speed * Math.sin(this._moveangle));
-                this.x += movement.x;
-                this.y += movement.y;
-                this.trigger('Moved', {x: this.x - movement.x, y: this.y - movement.y});
+
+                //If we're very close to the mouse, just don't move
+                if(this._dashing || Math.abs(rel.x) > 4 || Math.abs(rel.y) > 4) {
+                    var movement = new Vec2d(this._speed * Math.cos(this._moveangle),
+                                    this._speed * Math.sin(this._moveangle));
+                    this.x += movement.x;
+                    this.y += movement.y;
+                    this.trigger('Moved', {x: this.x - movement.x, y: this.y - movement.y});
+                }
             }
         },
 
