@@ -62,7 +62,6 @@ define(function(require) {
                     //Dash to mouse pointer; I derived this equation for speed
                     this._speed = Math.sqrt(2 * dashdecel * rel.magnitude());
                     this._speed = Math.min(this._speed, maxdashspeed);
-                    console.log(this._speed);
                     this._moveangle = this._targetangle;
                     this.trigger('StartDash');
                 }
