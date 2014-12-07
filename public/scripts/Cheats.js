@@ -4,7 +4,7 @@
 //... okay, fine, just use them responsibly
 
 define(function(require) {
-    document.bennyhill = function() {
+    window.bennyhill = function() {
         var playonadd = Crafty.audio.isPlaying('bgmusic');
         Crafty.audio.remove('bgmusic');
         Crafty.audio.add('bgmusic',
