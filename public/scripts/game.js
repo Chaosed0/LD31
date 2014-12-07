@@ -22,15 +22,27 @@ define(function(require) {
     var width = 1024;
     var height = 800;
 
-    Crafty.init(width, height, document.getElementById('game'));
+    var resumeGameFunc;
+    var playbgmusic = true;
+    var bgmusicvol = 0.5;
+    var gameElem = document.getElementById('game');
+
+    Crafty.init(width, height, gameElem);
     Crafty.background('#EFEFEF');
+    Crafty.audio.add('bgmusic', ['audio/squares_nointro.wav',
+                    'audio/squares_nointro.mp3',
+                    'audio/squares_nointro.ogg']);
+    document.addEventListener('keypress', function(e) {
+        if(e.key == 'm') {
+            playbgmusic = false;
+            Crafty.audio.stop('bgmusic');
+        }
+    });
 
     var pauseText = Crafty.e('2D, Canvas, Text')
             .attr({x: width/2.0 - 100, y: height/2.0 - 15, z: 1000})
             .textFont({size: '30px', weight: 'bold'});
     pauseText.visible = false;
-
-    var resumeGameFunc;
 
     var init = function() {
         var bestcombo = 0;
@@ -62,8 +74,12 @@ define(function(require) {
             .meter('#0000FF');
 
         player.bind('Lose', function() {
+            Crafty.audio.stop('bgmusic');
             pauseGame('You have died.');
             resumeGameFunc =  function() {
+                if(playbgmusic) {
+                    Crafty.audio.play('bgmusic', -1, bgmusicvol);
+                }
                 var ents = Crafty('obj');
                 ents.each(function() {
                     if(this !== pauseText) {
@@ -104,6 +120,9 @@ define(function(require) {
 
     var resumeGame = resumeGameFunc = function() {
         Crafty.removeEvent(self, Crafty.stage.elem, "mousedown", resumeGameFunc);
+        if(playbgmusic) {
+            Crafty.audio.play('bgmusic', -1, bgmusicvol);
+        }
         pauseText.visible = false;
         // This is toggle pause apparently...
         Crafty.pause();

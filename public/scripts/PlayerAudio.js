@@ -15,6 +15,9 @@ define(function(require) {
         slash3:    ['audio/slash3.wav',
                     'audio/slash3.mp3',
                     'audio/slash3.ogg'],
+        lose:      ['audio/lose.wav',
+                    'audio/lose.mp3',
+                    'audio/lose.ogg'],
     });
 
     Crafty.c("PlayerAudio", {
@@ -35,6 +38,10 @@ define(function(require) {
             Crafty.audio.play('whoosh');
         },
 
+        _onLose: function() {
+            Crafty.audio.play('lose');
+        },
+
         _onEndDash: function() {
         },
 
@@ -44,6 +51,7 @@ define(function(require) {
             this.bind("StartDash", this._onStartDash);
             this.bind("BombKill", this._onBombKill);
             this.bind("StopDash", this._onEndDash);
+            this.bind("Lose", this._onLose);
         },
     });
 });
