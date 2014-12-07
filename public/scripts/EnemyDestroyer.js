@@ -5,7 +5,7 @@ define(function(require) {
     var Vec2d = Crafty.math.Vector2D;
 
     Crafty.sprite(20, 20, "image/blood.png", {bloodspray:[0, 0]});
-    Crafty.sprite(20, 20, "image/slash.png", {slash:[0, 0]});
+    Crafty.sprite(30, 30, "image/slash.png", {slash:[0, 0]});
 
     var bombmeter_max = 30;
     var special_combo_val = 50;
@@ -25,9 +25,9 @@ define(function(require) {
         _destroyEnemy: function(entityHit) {
             var slashimg = Crafty.e('2D, Canvas, slash, SpriteAnimation, Expires')
                 .attr({x: entityHit.x + 10, y: entityHit.y+10, w:20, h:20, z: -999})
-                .reel('slash', 50, 0, 0, 5)
+                .reel('slash', 50, 0, 0, 7)
                 .animate('slash')
-                .expires(100)
+                .expires(150)
                 .origin(10, 10);
             var bloodsprite = Crafty.e('2D, Canvas, bloodspray, SpriteAnimation')
                 .attr({x: entityHit.x + 10, y: entityHit.y + 10, w:20, h:20, z: -1000})
