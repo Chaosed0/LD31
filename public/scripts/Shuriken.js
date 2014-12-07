@@ -5,7 +5,7 @@ define(function(require) {
 
     Crafty.c("Shuriken", {
         _rotation: 10,
-        _speed: 15,
+        _speed: 10,
 
         _movement: null,
         _target: new Vec2d(0,0),

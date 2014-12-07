@@ -17,15 +17,15 @@ define(function(require) {
         _state: state.startDash,
         _timer: 1000,
         _speed: 0,
-        _dashspeed: 15,
-        _deceleration: 2,
+        _dashspeed: 30,
+        _deceleration: 3,
         _comp: 'Player',
 
         _cachedplayer: null,
         _target: null,
 
-        _prethrowtime: 1500,
-        _postthrowtime: 500,
+        _prethrowtime: 2000,
+        _postthrowtime: 1000,
 
         _enterframe: function(data) {
             if(this._cachedplayer == null) {
