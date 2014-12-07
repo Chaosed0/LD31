@@ -17,26 +17,47 @@ define(function(require) {
         _score: 0,
         _combo: -1,
         _comboval: 0,
-        _bombmeter: 0,
+        _bombmeter: 30,
         _bombtimer: 0,
         _bombtime: 100,
         _bombing: false,
 
-        _destroyEnemy: function(entityHit) {
-            var slashimg = Crafty.e('2D, Canvas, slash, SpriteAnimation, Expires')
-                .attr({x: entityHit.x + 10, y: entityHit.y+10, w:20, h:20, z: -999})
-                .reel('slash', 50, 0, 0, 7)
-                .animate('slash')
-                .expires(150)
-                .origin(10, 10);
+        _bombslashes: [],
+
+        _destroyEnemy: function(entityHit, isBomb) {
+            var rotation = this.rotation + 90;
+            if(isBomb) {
+                rotation = Math.random() * 360;
+            }
+
+            var eCenter = new Vec2d(entityHit.x + entityHit.w/2.0, entityHit.y + entityHit.h/2.0);
+
             var bloodsprite = Crafty.e('2D, Canvas, bloodspray, SpriteAnimation')
-                .attr({x: entityHit.x + 10, y: entityHit.y + 10, w:20, h:20, z: -1000})
+                .attr({x: eCenter.x - 10, y: eCenter.y - 10, z: -1000, w:20, h:20})
                 .reel('spray', 100, 0, 0, 5)
                 .animate('spray')
                 .origin(10, 10);
+            //For some reason, setting rotation in attr really screws things up
+            bloodsprite.rotation = rotation;
 
-            slashimg.rotation = this.rotation + 90;
-            bloodsprite.rotation = this.rotation + 90;
+            if(isBomb) {
+                var slashimg = Crafty.e('2D, Canvas, slash, SpriteAnimation')
+                    .attr({x: eCenter.x - 15, y: eCenter.y - 15, z: -999, w:30, h:30})
+                    .reel('slash', 100, 0, 0, 5)
+                    .reel('endslash', 100, 0, 5, 8)
+                    .animate('slash')
+                    .origin(15, 15);
+                slashimg.rotation = rotation;
+                this._bombslashes.push(slashimg);
+            } else {
+                var slashimg = Crafty.e('2D, Canvas, slash, SpriteAnimation, Expires')
+                    .attr({x: eCenter.x - 15, y: eCenter.y - 15, z: -999, w:30, h:30})
+                    .reel('slash', 100, 0, 0, 8)
+                    .animate('slash')
+                    .expires(120)
+                    .origin(15, 15);
+                slashimg.rotation = rotation;
+            }
 
             if(this._combo >= 0) {
                 if(this._bombing) {
@@ -79,10 +100,19 @@ define(function(require) {
                     // telling anyone
                     this._combo = -1;
                     this._comboval = 0;
+                    
+                    //Finish slashes
+                    while(this._bombslashes.length) {
+                        var bombslash = this._bombslashes.pop();
+                        bombslash.addComponent('Expires')
+                            .animate('endslash');
+                            .expires(120)
+                    }
+
                     this.unbind('EnterFrame', this._bombframe);
                     this.trigger('EndBomb');
                 } else {
-                    this._destroyEnemy(enemy);
+                    this._destroyEnemy(enemy, true);
                     this.trigger('BombKill');
                 }
                 this._bombtimer -= this._bombtime;
@@ -105,7 +135,7 @@ define(function(require) {
             for(var i = 0; i < hitData.length; i++) {
                 var entityHit = hitData[i].obj;
                 if(this._destroy) {
-                    this._destroyEnemy(entityHit);
+                    this._destroyEnemy(entityHit, false);
                 }
             }
         },

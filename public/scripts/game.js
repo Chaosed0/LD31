@@ -24,7 +24,7 @@ define(function(require) {
 
     var resumeGameFunc;
     var playbgmusic = true;
-    var bgmusicvol = 0.5;
+    var bgmusicvol = 0.3;
     var gameElem = document.getElementById('game');
 
     Crafty.init(width, height, gameElem);
