@@ -105,8 +105,8 @@ define(function(require) {
                     while(this._bombslashes.length) {
                         var bombslash = this._bombslashes.pop();
                         bombslash.addComponent('Expires')
-                            .animate('endslash');
-                            .expires(120)
+                            .animate('endslash')
+                            .expires(120);
                     }
 
                     this.unbind('EnterFrame', this._bombframe);
