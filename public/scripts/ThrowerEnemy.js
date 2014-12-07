@@ -11,7 +11,7 @@ define(function(require) {
         postThrow: 3
     };
 
-    Crafty.c("ProjectileThrower", {
+    Crafty.c("ThrowerEnemy", {
         _lastProjectile: 0,
 
         _state: state.startDash,
@@ -76,7 +76,7 @@ define(function(require) {
             this.bind("EnterFrame", this._enterframe);
         },
 
-        projectilethrower: function(comp, speed) {
+        throwerenemy: function(comp, speed) {
             this._comp = comp;
             this._dashspeed = speed;
             return this;

@@ -37,26 +37,26 @@ define(function(require) {
             }
 
             if(randspawn < this._lightchance && this._sinceheavy < 9 && this._sincethrower < 9) {
-                var enemy = Crafty.e('2D, Canvas, Color, FollowPlayer, Enemy, KillPlayer')
+                var enemy = Crafty.e('2D, Canvas, Color, SimpleEnemy, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('green')
-                    .followplayer('Player', 4)
+                    .simpleenemy('Player', 4)
                     .setLight();
                 this._sinceheavy++;
                 this._sincethrower++;
             } else if (this._sincethrower >= 9 ||
                     randspawn >= this._lightchance && randspawn < this._lightchance + this._throwerchance) {
-                var enemy = Crafty.e('2D, Canvas, Color, ProjectileThrower, Enemy, KillPlayer')
+                var enemy = Crafty.e('2D, Canvas, Color, ThrowerEnemy, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('blue')
-                    .projectilethrower('Player', 15)
+                    .throwerenemy('Player', 15)
                     .setLight();
                 this._sincethrower = 0;
             } else {
-                var enemy = Crafty.e('2D, Canvas, Color, FollowPlayerVary, Enemy, KillPlayer')
+                var enemy = Crafty.e('2D, Canvas, Color, HeavyEnemy, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 15, h: 15, z: 1})
                     .color('#0000FF')
-                    .followplayer('Player', 1, 8.5, 0.01)
+                    .heavyenemy('Player', 1, 8.5, 0.01)
                     .setHeavy();
                 this._sinceheavy = 0;
             }

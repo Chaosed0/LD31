@@ -3,16 +3,20 @@ define(function(require) {
     var self = this;
 
     var Crafty = require('crafty');
+
     require('scripts/Player.js');
-    require('scripts/FollowMouse.js');
     require('scripts/PlayerAudio.js');
-    require('scripts/FollowPlayer.js');
-    require('scripts/FollowPlayerVary.js');
+    require('scripts/PlayerControl.js');
+
+    require('scripts/Enemy.js');
+    require('scripts/SimpleEnemy.js');
+    require('scripts/HeavyEnemy.js');
+    require('scripts/ThrowerEnemy.js');
+    require('scripts/Shuriken.js');
+
     require('scripts/EnemyDestroyer.js');
     require('scripts/EnemySpawner.js');
-    require('scripts/Enemy.js');
-    require('scripts/ProjectileThrower.js');
-    require('scripts/Shuriken.js');
+
     require('scripts/Meter.js');
     
     var width = 1024;
@@ -31,7 +35,7 @@ define(function(require) {
     var init = function() {
         var bestcombo = 0;
 
-        var player = Crafty.e('2D, Canvas, Color, FollowMouse, Collision, EnemyDestroyer, PlayerAudio, Player')
+        var player = Crafty.e('2D, Canvas, Color, PlayerControl, Collision, EnemyDestroyer, PlayerAudio, Player')
             .attr({x: width/2.0, y: height/2.0, w: 10, h: 10})
             .origin(5, 5)
             .color('black')

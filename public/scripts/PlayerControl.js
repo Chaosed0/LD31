@@ -34,7 +34,7 @@ define(function(require) {
         return angle;
     };
     
-    Crafty.c("FollowMouse", {
+    Crafty.c("PlayerControl", {
         _moving: true,
         _speed: 0,
         _maxspeed: 8,
