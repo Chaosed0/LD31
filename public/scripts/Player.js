@@ -51,7 +51,7 @@ define(function(require) {
             this.bind('StartDash', this.setInvincible);
             this.bind('StartBomb', this.setInvincible);
             this.bind('StopDash', this.unsetInvincible);
-            this.bind('StopDash', this.unsetInvincible);
+            this.bind('EndBomb', this.unsetInvincible);
         },
 
         player: function(stageWidth, stageHeight) {
