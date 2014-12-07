@@ -4,17 +4,12 @@ define(function(require) {
     var Vec2d = Crafty.math.Vector2D;
 
     Crafty.c("Enemy", {
-        _light: true,
-        _heavy: false,
-
-        setLight: function() {
-            this._light = true;
-            this._heavy = false;
+        _special: false,
+        enemy: function(special) {
+            this._special = special;
         },
-        
-        setHeavy: function() {
-            this._heavy = true;
-            this._light = false;
+        isSpecialEnemy: function() {
+            return this._special;
         }
     });
 });

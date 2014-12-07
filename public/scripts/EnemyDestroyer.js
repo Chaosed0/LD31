@@ -8,15 +8,19 @@ define(function(require) {
     Crafty.sprite(20, 20, "image/slash.png", {slash:[0, 0]});
 
     var bombmeter_max = 40;
+    var special_combo_val = 50;
+    var normal_combo_val = 10;
 
     Crafty.c("EnemyDestroyer", {
         _destroy: false,
 
         _score: 0,
         _combo: -1,
+        _comboval: 0,
         _bombmeter: 0,
         _bombtimer: 0,
         _bombtime: 100,
+        _bombing: false,
 
         _destroyEnemy: function(entityHit) {
             var slashimg = Crafty.e('2D, Canvas, slash, SpriteAnimation, Expires')
@@ -35,22 +39,28 @@ define(function(require) {
             bloodsprite.rotation = this.rotation + 90;
 
             if(this._combo >= 0) {
-                if(this._combo > 0) { 
-                    var textsize = 8 + this._combo * 4;
-                    var redness = Math.min(0 + this._combo * 20, 255);
-                    var rednessHex = redness.toString(16);
-                    if(rednessHex.length < 2) {
-                        rednessHex = '0' + rednessHex;
-                    }
-
-                    Crafty.e('2D, Canvas, Text, Expires')
-                        .attr({x: entityHit.x, y: entityHit.y, w:20, h:20})
-                        .textFont({size:textsize + 'px'})
-                        .textColor('#' + rednessHex + '0000')
-                        .text('+' + this._combo*10)
-                        .expires(1000);
-                    this._score += this._combo*10;
+                if(this._bombing) {
+                    this._comboval += 5;
+                } else if(entityHit.isSpecialEnemy()) {
+                    this._comboval += special_combo_val;
+                } else {
+                    this._comboval += normal_combo_val;
                 }
+                this._score += this._comboval;
+
+                var textsize = 8 + this._comboval / 5.0;
+                var redness = Math.min(0 + this._comboval, 255);
+                var rednessHex = redness.toString(16);
+                if(rednessHex.length < 2) {
+                    rednessHex = '0' + rednessHex;
+                }
+
+                Crafty.e('2D, Canvas, Text, Expires')
+                    .attr({x: entityHit.x, y: entityHit.y, w:20, h:20})
+                    .textFont({size:textsize + 'px'})
+                    .textColor('#' + rednessHex + '0000')
+                    .text('+' + this._comboval)
+                    .expires(1000 + this._comboval * 5);
                 this._combo++;
             }
 
@@ -64,6 +74,9 @@ define(function(require) {
             if(this._bombtimer >= this._bombtime) {
                 var enemy = Crafty('Enemy').get(0);
                 if(enemy === undefined) {
+                    this._bombing = false;
+                    //Don't count the bomb as a combo
+                    this._combo = 0;
                     this.unbind('EnterFrame', this._bombframe);
                     this.trigger('EndBomb');
                 } else {
@@ -76,6 +89,8 @@ define(function(require) {
 
         _startbomb: function() {
             this._bombmeter = 0;
+            this._bombing = true;
+            this._combo = 0;
             this.trigger('NewMeter', this._bombmeter / bombmeter_max * 100);
             this.bind('EnterFrame', this._bombframe);
         },
@@ -105,6 +120,7 @@ define(function(require) {
             this._bombmeter = Math.min(Math.max(0, this._bombmeter + this._combo - 1), bombmeter_max);
             this.trigger('NewCombo', this._combo);
             this.trigger('NewMeter', this._bombmeter / bombmeter_max * 100);
+            this._comboval = 0;
             this._destroy= false;
             this._combo = -1;
         },

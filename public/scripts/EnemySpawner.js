@@ -41,7 +41,7 @@ define(function(require) {
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('green')
                     .simpleenemy('Player', 4)
-                    .setLight();
+                    .enemy(false);
                 this._sinceheavy++;
                 this._sincethrower++;
             } else if (this._sincethrower >= 9 ||
@@ -50,14 +50,14 @@ define(function(require) {
                     .attr({x: pos.x, y: pos.y, w: 10, h: 10, z: 1})
                     .color('blue')
                     .throwerenemy('Player', 15)
-                    .setLight();
+                    .enemy(true);
                 this._sincethrower = 0;
             } else {
                 var enemy = Crafty.e('2D, Canvas, Color, HeavyEnemy, Enemy, KillPlayer')
                     .attr({x: pos.x, y: pos.y, w: 15, h: 15, z: 1})
                     .color('#0000FF')
                     .heavyenemy('Player', 1, 8.5, 0.01)
-                    .setHeavy();
+                    .enemy(true);
                 this._sinceheavy = 0;
             }
         },
