@@ -6,6 +6,7 @@ define(function(require) {
 
     var dashdecel = 3.0;
     var maxdashspeed = 40.0;
+    var mindashspeed = 30.0;
 
     var turnTowards = function(from, to) {
         var c1 = to - from;
@@ -62,6 +63,7 @@ define(function(require) {
                     //Dash to mouse pointer; I derived this equation for speed
                     this._speed = Math.sqrt(2 * dashdecel * rel.magnitude());
                     this._speed = Math.min(this._speed, maxdashspeed);
+                    this._speed = Math.max(this._speed, mindashspeed);
                     this._moveangle = this._targetangle;
                     this.trigger('StartDash');
                 }
