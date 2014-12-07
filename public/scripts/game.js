@@ -77,9 +77,6 @@ define(function(require) {
             Crafty.audio.stop('bgmusic');
             pauseGame('You have died.');
             resumeGameFunc =  function() {
-                if(playbgmusic) {
-                    Crafty.audio.play('bgmusic', -1, bgmusicvol);
-                }
                 var ents = Crafty('obj');
                 ents.each(function() {
                     if(this !== pauseText) {
