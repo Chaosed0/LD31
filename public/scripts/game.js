@@ -62,12 +62,12 @@ define(function(require) {
 
         var scoretext = Crafty.e('2D, Canvas, Text')
             .attr({x: 0, y: 0, z: 1000})
-            .textFont({size: '14px'})
+            .textFont({size: '20px', weight:'bold'})
             .text('Score: 0');
 
         var combotext = Crafty.e('2D, Canvas, Text')
-            .attr({x: 0, y: 20, z: 1000})
-            .textFont({size: '14px'})
+            .attr({x: 0, y: 30, z: 1000})
+            .textFont({size: '20px', weight:'bold'})
             .text('Best Combo: 0');
 
         var combometer = Crafty.e('2D, Canvas, Meter')
