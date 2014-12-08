@@ -18,7 +18,7 @@ define(function(require) {
     require('scripts/EnemySpawner.js');
 
     require('scripts/Meter.js');
-    require('scripts/Cheats.js');
+    require('scripts/zcheats.js');
     
     var width = 1024;
     var height = 800;

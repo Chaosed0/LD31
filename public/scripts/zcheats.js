@@ -1,7 +1,21 @@
 
-//What get out of here
-//just because it is named cheats.js doesn't mean there is anything in here
-//... okay, fine, just use them responsibly
+// What
+// no
+// get out of here
+// nothing to see here
+// go away
+// pls
+// don't look
+// why are you debugging my game anyway
+// maybe you're not debugging my game
+// I don't know
+// how did you even get here then
+// are you some psionic genie
+// are you just really good at guessing URLs
+// you're probably looking in the debugger
+// oh well
+// I can't stop you
+// go on
 
 define(function(require) {
     var Crafty = require('crafty');
