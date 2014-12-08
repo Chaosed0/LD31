@@ -6,17 +6,6 @@
 define(function(require) {
     var Crafty = require('crafty');
 
-    window.bennyhill = function() {
-        var playonadd = Crafty.audio.isPlaying('bgmusic');
-        Crafty.audio.remove('bgmusic');
-        Crafty.audio.add('bgmusic',
-                ['http://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.mp3',
-                 'http://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.ogg']);
-        if(playonadd) {
-            Crafty.audio.play('bgmusic');
-        }
-    };
-
     window.getbomb = function() {
         Crafty('EnemyDestroyer').get(0)._increasebombmeter(999);
     };
@@ -27,5 +16,22 @@ define(function(require) {
         Crafty('Player').get(0).bind('EnterFrame', function() {
             this._invincible = true;
         });
-    }
+    };
+
+    window.setspawnrate = function(spawntime) {
+        Crafty('EnemySpawner').get(0).bind('EnterFrame', function() {
+            this._time = spawntime;
+        });
+    };
+
+    window.funmode = function() {
+        var playonadd = Crafty.audio.isPlaying('bgmusic');
+        Crafty.audio.remove('bgmusic');
+        Crafty.audio.add('bgmusic',
+                ['http://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.mp3',
+                 'http://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.ogg']);
+        if(playonadd) {
+            Crafty.audio.play('bgmusic');
+        }
+    };
 });
