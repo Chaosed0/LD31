@@ -137,6 +137,14 @@ define(function(require) {
             }
         },
 
+        _onlose: function() {
+            //PlayerAudio is still running even after the game pauses - don't trigger
+            // any more events
+            Crafty.removeEvent(this, Crafty.stage.elem, "mousemove", this._mousemove);
+            Crafty.removeEvent(this, Crafty.stage.elem, "mouseup", this._mouseup);
+            Crafty.removeEvent(this, Crafty.stage.elem, "mousedown", this._mousedown);
+        },
+
         init: function() {
             this.requires('Mouse');
 
@@ -145,6 +153,7 @@ define(function(require) {
             Crafty.addEvent(this, Crafty.stage.elem, "mousedown", this._mousedown);
 
             this.bind("EnterFrame", this._enterframe);
+            this.bind("Lose", this._onlose);
         },
 
         playercontrol: function(maxspeed, acceleration, turnrate) {

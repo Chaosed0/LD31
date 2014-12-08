@@ -75,8 +75,8 @@ define(function(require) {
             .meter('#0000BB');
 
         player.bind('Lose', function() {
-            Crafty.audio.stop('bgmusic');
             pauseGame('You have died.');
+            Crafty.audio.stop('bgmusic');
             resumeGameFunc =  function() {
                 var ents = Crafty('obj');
                 ents.each(function() {
@@ -91,7 +91,7 @@ define(function(require) {
                 //Often, the player will immediately click trying to dodge death,
                 // causing unintended game restart - hack around it
                 Crafty.addEvent(self, Crafty.stage.elem, "mousedown", resumeGameFunc)
-            }, 100);
+            }, 200);
         });
 
         player.bind('ScoreChange', function(newscore) {
