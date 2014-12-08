@@ -70,16 +70,21 @@ define(function(require) {
                 this._score += this._comboval;
 
                 var textsize = 8 + this._comboval / 10.0;
-                var redness = Math.min(this._comboval/2.0, 255);
+                var redness = Math.floor(Math.min(this._comboval/2.0, 255));
+                var greenness = Math.floor(Math.min(Math.max((this._comboval - 400)/3.0, 0), 500));
                 var rednessHex = redness.toString(16);
                 if(rednessHex.length < 2) {
                     rednessHex = '0' + rednessHex;
+                }
+                var greennessHex = greenness.toString(16);
+                if(greennessHex.length < 2) {
+                    greennessHex = '0' + greennessHex;
                 }
 
                 Crafty.e('2D, Canvas, Text, Expires')
                     .attr({x: entityHit.x, y: entityHit.y, w:20, h:20})
                     .textFont({size:textsize + 'px'})
-                    .textColor('#' + rednessHex + '0000')
+                    .textColor('#' + rednessHex + greennessHex + '00')
                     .text('+' + this._comboval)
                     .expires(1000 + this._comboval * 5);
                 this._combo++;
